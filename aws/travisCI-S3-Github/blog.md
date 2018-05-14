@@ -1,4 +1,4 @@
-# Connecting github repo to S3 bucket using TravisCI
+# Continous integration of Github repo with s3 bucket using TravisCI
 
 ## Overview
 
@@ -8,11 +8,11 @@
 1. Setting up Git Repo
 2. Setting up Travis account
 3. AWS Setup
-    a. Setting up S3
-    b. Creating IAM user for TravisCI
-    c. Test the IAM user has access to S3 bucket or not
-        i. Installing and using AWS CLI
-        ii.Uploading files to S3 using aws-cli through IAM user
+    * Setting up S3
+    * Creating IAM user for TravisCI
+    * Test the IAM user has access to S3 bucket or not
+        * Installing and using AWS CLI
+        * Uploading files to S3 using aws-cli through IAM user
 4. Configuring .travis.yml file in repo 
 
 
@@ -87,9 +87,11 @@ Let’s use AWS cli to login with our new user and uploading files to S3… This
 1. Now that you have installed python, use the command to install awscli `sudo apt install awscli`
 2. Verify aws is installed, `aws --version`
 3. Configure aws with newly created user.
-    a. Type command `aws configure`
-    b. Provide Access Key ID, Secret Access Key that you have copied earlier.
-    c. Provide `Default region name` as us-east-1 (depending upon yours configuration) and `Default output` as json.
+    * Type command `aws configure`
+    * Provide Access Key ID, Secret Access Key that you have copied earlier.
+    * Provide `Default region name` as us-east-1 (depending upon yours configuration) and `Default output` as json.
+    
+    
 **Note** : If some error occurs while installing awscli, please install python first.
 
 ### Uploading files to S3 using aws-cli through IAM user
