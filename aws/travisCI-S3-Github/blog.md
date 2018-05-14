@@ -1,0 +1,156 @@
+# Connecting github repo to S3 bucket using TravisCI
+
+## Overview
+
+
+## Steps to follow
+
+1. Setting up Git Repo
+2. Setting up Travis account
+3. AWS Setup
+    a. Setting up S3
+    b. Creating IAM user for TravisCI
+    c. Test the IAM user has access to S3 bucket or not
+        i. Installing and using AWS CLI
+        ii.Uploading files to S3 using aws-cli through IAM user
+4. Configuring .travis.yml file in repo 
+
+
+
+## Setting up Git Repo
+
+Create a git repository and add you code to it.
+
+## Setting up Travis account
+
+Go to this link https://travis-ci.com/ and signup the github account. Provide Github username and password -> Authorize to Travis -> Press on Activate button -> Choose either all repos or selected a repo -> Press Approve and Install. 
+
+Once you are in home page, on your desired repository, press on setting button -> Enable Build only if travis.yml file present.
+
+## AWS Setup
+
+### Setting up S3
+
+1. Login to AWS console and create S3 bucket.
+2. Once bucket is created, go to Properties tab and enable `Static website hosting`
+
+### Creating IAM user for TravisCI
+
+1. Go to AWS console and search for IAM -> add a new IAM user
+2. Give `Programmatic Access`
+3. Copy `Secret Access Key` and `Access Key ID`, we are going to need it later.
+4. Once the user is created, click on them and on the `Permission` tab , hit `Add Inline permission` link.
+5. Open the Json tab and past the following Json. Make sure you replace the resources by your bucket name.  
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:ListAllMyBuckets",
+            "Resource": "arn:aws:s3:::*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": [
+                "arn:aws:s3:::your_bucket_name"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:DeleteObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::your_bucket_name/*"
+            ]
+        }
+    ]
+}
+```
+6. Click on create policy button, give a proper name and save. 
+
+## Test the IAM user has access to S3 bucket or not
+This step is optional, you may skip this step.
+
+### Installing and using AWS CLI
+Let’s use AWS cli to login with our new user and uploading files to S3… This is for Ubuntu. 
+
+1. Now that you have installed python, use the command to install awscli `sudo apt install awscli`
+2. Verify aws is installed, `aws --version`
+3. Configure aws with newly created user.
+    a. Type command `aws configure`
+    b. Provide Access Key ID, Secret Access Key that you have copied earlier.
+    c. Provide `Default region name` as us-east-1 (depending upon yours configuration) and `Default output` as json.
+**Note** : If some error occurs while installing awscli, please install python first.
+
+### Uploading files to S3 using aws-cli through IAM user
+
+1. Create index.html file in a folder and cd to into it. 
+2. Use command  aws s3 cp index.html s3://[bucket_name]/index.html  to copy the file to s3 bucket. Don’t forget to replace the bucket name in the command. 
+
+## Configuring .travis.yml file in repo
+
+Clone the existing repo and create .travis.yml file in root folder.
+Add following code into it.
+
+```
+
+language: node_js
+node_js:
+ - node
+cache:
+ directories:
+   - node_modules
+deploy:
+ provider: s3
+ access_key_id: "YOUR ACCESS KEY"
+ secret_access_key: "YOUR SECRET KEY"
+ bucket: "YOUR S3 BUCKET"
+ acl: public_read
+ skip_cleanup: true
+ local_dir: build_webpack
+branches:
+ only:
+   - master
+addons:
+   apt:
+     update: true
+```
+
+1. This config file is telling travis to build the project as node project. Hence the language is specified as node_js
+2. Replace “YOUR ACCESS KEY” and “YOUR SECRET KEY” with keys that you have copied earlier.
+3. Change the **bucket** field as well.
+4. **local_dir**  field tells Travis to deploy only the specified directory (here build_webpack) to the bucket so that you won’t have to deploy your whole code.
+5. **apt -> update** true : property tells to run apt-get update.
+6. **acl** property can set Travis correct file permission. In this case its public. To read more here.
+
+Now you can do come changes in any file, say index.html. Build your project using command , say npm run build then commit the changes. Travis will detect the new commit and trigger the build for you. 
+
+For more https://docs.travis-ci.com/user/deployment/s3/ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
