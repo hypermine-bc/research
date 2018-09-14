@@ -45,7 +45,7 @@ $ sudo apt-get install ethereum
 
 `geth init --datadir data`
 
-### Run geth node
+### Run geth node 01 with rpcport 8545
 
 `geth --datadir data/ --rpc --rpcaddr ec2-13-126-224-63.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30303 --nodiscover`
 
@@ -83,13 +83,13 @@ miner.start(1)
 
 - Install geth and setup it with same *genesis.json* file
 
-## Run Node 02 with port 8546
+### Run geth node 02 with rpcport 85456
 
 `geth --datadir data/ --rpc --rpcaddr ec2-52-66-45-40.ap-south-1.compute.amazonaws.com --rpcport 8546 --rpccorsdomain "*" --networkid 3257 --port 30304 --nodiscover`
 
 Notice that I have used the same network id as of node 01 but changed the rpcaddr and rpcport configurations.
 
-## Connecting peer
+### Connecting peer
 
 - Get  `enode` value of node 01. It will be like this :
 
