@@ -33,7 +33,7 @@ $ sudo apt-get install ethereum
 ``` 
 {
     "config": {  
-        "chainId": 1010, 
+        "chainId": 3257, 
         "homesteadBlock": 0,
         "eip155Block": 0,
         "eip158Block": 0
@@ -51,7 +51,9 @@ $ sudo apt-get install ethereum
 
 `geth --datadir data/ --rpc --rpcaddr ec2-13-126-224-63.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30303 --nodiscover`
 
-Make sure you give public ip for --rpcaddr value 
+Note 
+- The networkid and chainId is same.
+- Make sure you give public ip for --rpcaddr value 
 
 ## Creating account
 
