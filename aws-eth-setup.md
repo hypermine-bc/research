@@ -45,7 +45,7 @@ $ sudo apt-get install ethereum
 ```
 ### Initiate geth
 
-`geth init --datadir data`
+`geth init genesis.json --datadir data`
 
 ### Run geth node 01 with rpcport 8545
 
