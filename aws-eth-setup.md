@@ -1,4 +1,3 @@
-[tutorial](https://docs.aws.amazon.com/blockchain-templates/latest/developerguide/blockchain-templates-ethereum.html)
 
 ## Setup Amazon EC2 Instances
 
@@ -108,6 +107,11 @@ Notice that I have used the same network id as of node 01 but changed the rpcadd
 - Add the node 01 as a peer to node02
 
 `admin.addPeers(enode://32674274ca7d4696dd3cc8070749df13ea30613ad76159b2152ac8a0a4254d7bcc11ee667cb4a90951a67bae5c2b7b940a8549028d95c830917ab7908fb2abec@[ec2-13-126-224-63.ap-south-1.compute.amazonaws.com]:30303?discport=0)`
+
+# References
+
+[tutorial](https://docs.aws.amazon.com/blockchain-templates/latest/developerguide/blockchain-templates-ethereum.html)
+
 
 
 
