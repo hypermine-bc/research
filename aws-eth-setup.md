@@ -1,10 +1,12 @@
 [tutorial](https://docs.aws.amazon.com/blockchain-templates/latest/developerguide/blockchain-templates-ethereum.html)
 
-## Setup Amazon EC2 Instance
+## Setup Amazon EC2 Instances
 
 [Tutorial](https://mlgblockchain.com/setup-ethereum-on-aws-1.html)
 
 **Note** : Make sure to enable port 8545 (for inbound type 'Custom TCP Rule') in Inbouds of *Security group*. We gonna use this port later.
+
+Similarly create another EC2 instance for node 02 with port 8546 opened.
 
 ## To connect to EC2
 - Download putty gen tool from [here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
