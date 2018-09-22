@@ -46,9 +46,19 @@ $ sudo apt-get install ethereum
 
 `geth init genesis.json --datadir data`
 
-### Run geth node 01 with rpcport 8545
+### Run geth node 01 with rpcport 8545 
 
-`geth --datadir data/ --rpc --rpcaddr ec2-13-232-209-126.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30303 --mine`
+`geth --datadir data/ --rpc --rpcaddr ec2-13-232-209-126.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30303`
+
+**Run geth node with mining option**
+
+`geth --datadir data/ --rpc --rpcaddr ec2-13-232-209-126.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30303 --etherbase 0  --mine --minerthreads=4`
+
+**Run geth command in backgroup in AWS**
+
+`nohup geth --datadir data/ --rpc --rpcaddr ec2-13-232-209-126.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30303 --etherbase 0  --mine --minerthreads=4 &`
+
+Notice the use of `nohup` in the begning and `&` in the end to run the command in the background.
 
 ## Creating account
 
@@ -86,11 +96,19 @@ miner.start(1)
 
 `geth --datadir data/ --rpc --rpcaddr ec2-52-66-155-129.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30304 --bootnodes enode://0ddb2e6ec112953581692f89ffd2c108dd1080ea3d8b9b05372d5fbba6a12e189f8f07a6a7db71c1306f5210f585cd3d770d557c9de2f9380f5e943ab0803287@13.232.209.126:30303`
 
+**Run geth node with mine option**
+
+`geth --datadir data/ --rpc --rpcaddr ec2-52-66-155-129.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30304 --etherbase 0  --mine --minerthreads=4 --bootnodes enode://0ddb2e6ec112953581692f89ffd2c108dd1080ea3d8b9b05372d5fbba6a12e189f8f07a6a7db71c1306f5210f585cd3d770d557c9de2f9380f5e943ab0803287@13.232.209.126:30303`
+
+**Run geth command in backgroup in AWS**
+
+`nohup geth --datadir data/ --rpc --rpcaddr ec2-52-66-155-129.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30304 --etherbase 0  --mine --minerthreads=4 --bootnodes enode://0ddb2e6ec112953581692f89ffd2c108dd1080ea3d8b9b05372d5fbba6a12e189f8f07a6a7db71c1306f5210f585cd3d770d557c9de2f9380f5e943ab0803287@13.232.209.126:30303 &`
+
 Notice that I have used the same network id as of node 01 but changed the rpcaddr and port configurations.
 
 ### Connecting peer
 
-> If you have used `--bootnodes` option with the geth command, then you can skip the this section
+> If you have used `--bootnodes` option with the geth command, then you can skip the this section and go to Note section.
 
 - Get  `enode` value of node 01. It will be like this :
 
