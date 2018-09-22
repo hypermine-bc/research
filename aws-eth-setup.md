@@ -3,7 +3,7 @@
 
 [Tutorial](https://mlgblockchain.com/setup-ethereum-on-aws-1.html)
 
-**Note** : Make sure to enable port 8545 (for inbound type 'Custom TCP Rule') in Inbouds of *Security group*. We gonna use this port later.
+**Note** : Make sure to enable ports 8545 and 30303 (for inbound type 'Custom TCP Rule') in Inbouds of *Security group*. We gonna use this port later.
 
 Similarly create another EC2 instance for node 02 with port 8546 opened.
 
@@ -48,11 +48,7 @@ $ sudo apt-get install ethereum
 
 ### Run geth node 01 with rpcport 8545
 
-`geth --datadir data/ --rpc --rpcaddr ec2-13-126-224-63.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30303 --nodiscover`
-
-Note 
-- The networkid and chainId is same.
-- Make sure you give public ip for --rpcaddr value 
+`geth --datadir data/ --rpc --rpcaddr ec2-13-232-209-126.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30303 --mine`
 
 ## Creating account
 
@@ -86,27 +82,35 @@ miner.start(1)
 
 - Install geth and setup it with same *genesis.json* file
 
-### Run geth node 02 with rpcport 85456
+### Run geth node 02 with --bootenodes option
 
-`geth --datadir data/ --rpc --rpcaddr ec2-52-66-45-40.ap-south-1.compute.amazonaws.com --rpcport 8546 --rpccorsdomain "*" --networkid 3257 --port 30304 --nodiscover`
+`geth --datadir data/ --rpc --rpcaddr ec2-52-66-155-129.ap-south-1.compute.amazonaws.com --rpcport 8545 --rpccorsdomain "*" --networkid 3257 --port 30304 --bootnodes enode://0ddb2e6ec112953581692f89ffd2c108dd1080ea3d8b9b05372d5fbba6a12e189f8f07a6a7db71c1306f5210f585cd3d770d557c9de2f9380f5e943ab0803287@13.232.209.126:30303`
 
-Notice that I have used the same network id as of node 01 but changed the rpcaddr and rpcport configurations.
+Notice that I have used the same network id as of node 01 but changed the rpcaddr and port configurations.
 
 ### Connecting peer
 
+> If you have used `--bootnodes` option with the geth command, then you can skip the this section
+
 - Get  `enode` value of node 01. It will be like this :
 
-`enode://32674274ca7d4696dd3cc8070749df13ea30613ad76159b2152ac8a0a4254d7bcc11ee667cb4a90951a67bae5c2b7b940a8549028d95c830917ab7908fb2abec@[::]:30303?discport=0`
+`enode://0ddb2e6ec112953581692f89ffd2c108dd1080ea3d8b9b05372d5fbba6a12e189f8f07a6a7db71c1306f5210f585cd3d770d557c9de2f9380f5e943ab0803287@[::]:30303`
 
 - Replace public ip of node 01 into the enode value
 
-`enode://32674274ca7d4696dd3cc8070749df13ea30613ad76159b2152ac8a0a4254d7bcc11ee667cb4a90951a67bae5c2b7b940a8549028d95c830917ab7908fb2abec@[ec2-13-126-224-63.ap-south-1.compute.amazonaws.com]:30303?discport=0`
+`enode://0ddb2e6ec112953581692f89ffd2c108dd1080ea3d8b9b05372d5fbba6a12e189f8f07a6a7db71c1306f5210f585cd3d770d557c9de2f9380f5e943ab0803287@13.232.209.126:30303`
 
 - Attach a new console to the running geth instance in node 02
 
 - Add the node 01 as a peer to node02
 
-`admin.addPeers(enode://32674274ca7d4696dd3cc8070749df13ea30613ad76159b2152ac8a0a4254d7bcc11ee667cb4a90951a67bae5c2b7b940a8549028d95c830917ab7908fb2abec@[ec2-13-126-224-63.ap-south-1.compute.amazonaws.com]:30303?discport=0)`
+`admin.addPeers("enode://0ddb2e6ec112953581692f89ffd2c108dd1080ea3d8b9b05372d5fbba6a12e189f8f07a6a7db71c1306f5210f585cd3d770d557c9de2f9380f5e943ab0803287@13.232.209.126:30303")`
+
+# Notes
+- The networkid and chainId should be same for both the nodes.
+- Make sure you give public ip for --rpcaddr value. 
+- Do not use `--nodiscover` option with Geth command.
+- If you get any error, then use `--verbosity 10` option with the geth command to see the log.
 
 # References
 
