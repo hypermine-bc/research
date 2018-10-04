@@ -23,3 +23,4 @@ Implement ZKP or zkSnark in our projects wherever is possible.
 - https://github.com/ConsenSys/zero-knowledge-proofs 
 - https://blockonomi.com/zk-snarks-privacy/ 
 - https://blockgeeks.com/guides/what-is-zksnarks/ 
+- [PPT to learn](https://drive.google.com/file/d/1srwYN03o1Q113DswQgfzIWebLiTrmP6n/view?usp=sharing)
